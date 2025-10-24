@@ -4,12 +4,12 @@ import { useDisclosure } from '@mantine/hooks';
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './component.module.css';
 import logo from "../image/logo.png";
+import { Link } from 'react-router-dom';
 
 const links = [
-  { link: '/about', label: 'Features' },
-  { link: '/pricing', label: 'Pricing' },
-  { link: '/learn', label: 'Learn' },
-  { link: '/community', label: 'Community' },
+  { link: '/about', label: 'About Us' },
+  { link: '/contact', label: 'Contact Us' },
+  { link: '/login', label: 'Login' },
 ];
 
 export function Navigation() {
@@ -23,7 +23,7 @@ export function Navigation() {
       className={classes.link}
       data-active={active === link.link || undefined}
       onClick={(event) => {
-        event.preventDefault();
+        // event.preventDefault();
         setActive(link.link);
       }}
     >
@@ -34,7 +34,9 @@ export function Navigation() {
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
+        {/* <Link to="/"> */}
         <Image src={logo} alt="logo" style={{width: 100, height: 50}} />
+        {/* </Link> */}
         
         <Group gap={5} visibleFrom="xs">
           {items}

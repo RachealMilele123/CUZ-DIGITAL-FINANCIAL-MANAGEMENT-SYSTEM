@@ -5,6 +5,7 @@ import { Login } from './auth/Login';
 import { Hero } from './landingPage/Hero';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navigation } from './component/NavBar';
+import { ContactUs } from './landingPage/contactUs';
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <Routes>
         <Route path = "/" element={<Hero />} />
         <Route path = "/login" element={<Login />} />
-        {/* <Route path = "/dashboard" element={<DashBoard />} /> */}
+        <Route path = "/contact" element={<ContactUs />} />
 
       </Routes>
     </Router>
