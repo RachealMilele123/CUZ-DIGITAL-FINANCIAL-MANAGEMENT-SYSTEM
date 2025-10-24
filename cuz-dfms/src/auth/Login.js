@@ -2,36 +2,40 @@ import {
   Anchor,
   Button,
   Checkbox,
+  Container,
+  Group,
   Paper,
   PasswordInput,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
-import classes from '../auth/Login.module.css';
+import classes from './Login.module.css';
 
 export function Login() {
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form}>
-        <Title order={2} className={classes.title}>
-          Welcome back to Mantine!
-        </Title>
+    <Container size={420} my={40} >
+      <Title ta="center" className={classes.title}>
+        Bank 
+      </Title>
 
-        <TextInput label="Email address" placeholder="hello@gmail.com" size="md" radius="md" />
-        <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" radius="md" />
-        <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button fullWidth mt="xl" size="md" radius="md">
-          Login
-        </Button>
+      <Text className={classes.subtitle}>
+        Do not have an account yet? <Anchor>Create account</Anchor>
+      </Text>
 
-        <Text ta="center" mt="md">
-          Don&apos;t have an account?{' '}
-          <Anchor href="#" fw={500} onClick={(event) => event.preventDefault()}>
-            Register
+      <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
+        <TextInput label="Email" placeholder="you@mantine.dev" required radius="md" />
+        <PasswordInput label="Password" placeholder="Your password" required mt="md" radius="md" />
+        <Group justify="space-between" mt="lg">
+          <Checkbox label="Remember me" />
+          <Anchor component="button" size="sm">
+            Forgot password?
           </Anchor>
-        </Text>
+        </Group>
+        <Button fullWidth mt="xl" radius="md">
+          Sign in
+        </Button>
       </Paper>
-    </div>
+    </Container>
   );
 }
