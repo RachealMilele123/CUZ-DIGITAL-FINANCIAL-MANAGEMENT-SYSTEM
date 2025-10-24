@@ -9,25 +9,30 @@ export function Hero() {
 
       <div className={classes.inner}>
         <Title className={classes.title}>
-          Automated AI code reviews for{' '}
+          CUZ Digital Financial Management System{' '}
           <Text component="span" inherit className={classes.highlight}>
             any stack
           </Text>
         </Title>
 
         <Container size={640}>
-          <Text size="lg" className={classes.description}>
-            Build more reliable software with AI companion. AI is also trained to detect lazy
-            developers who do nothing and just complain on Twitter.
+    
+         <Text size="sm" c="dimmed" ta="center">
+           Where transparency meets technology.
+         </Text>
+
+          <Text size="lg" className={classes.description} font='White'>
+           Simplify school finance management.
+        collect fees, track expenses, and generate reports with ease.
           </Text>
         </Container>
 
         <div className={classes.controls}>
-          <Button className={classes.control} variant="white" size="lg">
+          <Button className={classes.control} variant="white" size="lg" ho>
             Get started
           </Button>
           <Button className={cx(classes.control, classes.secondaryControl)} size="lg">
-            Live demo
+            Login To DashBoard
           </Button>
         </div>
       </div>
