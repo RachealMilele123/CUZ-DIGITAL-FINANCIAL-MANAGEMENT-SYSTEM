@@ -12,6 +12,7 @@ import {
   Title,
 } from '@mantine/core';
 import classes from './ForgotPassword.module.css';
+import { Link } from 'react-router-dom';
 
 export function ForgotPassword() {
   return (
@@ -29,7 +30,9 @@ export function ForgotPassword() {
           <Anchor c="dimmed" size="sm" className={classes.control}>
             <Center inline>
               <IconArrowLeft size={12} stroke={1.5} />
-              <Box ml={5}>Back to the login page</Box>
+              <Link to="/login" style={{ fontSize: '0.9rem', textDecoration: 'none', color: '#1c7ed6' }}>
+  <Box ml={5}>Back to the login page</Box>
+</Link>
             </Center>
           </Anchor>
           <Button className={classes.control}>Reset password</Button>
