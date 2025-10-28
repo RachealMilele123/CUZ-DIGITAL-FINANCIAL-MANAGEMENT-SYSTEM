@@ -18,10 +18,10 @@ export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // 💖 new
+  const [loading, setLoading] = useState(false);
 
   const loginUser = () => {
-    setLoading(true); // 💖 start loading
+    setLoading(true); 
 
     fetch("http://localhost:9000/cuz/bank/login", {
       method: "POST",
