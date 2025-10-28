@@ -9,7 +9,8 @@ export function Hero() {
 
       <div className={classes.inner}>
         <Title className={classes.title}>
-          CUZ Digital Financial Management System{' '}
+          CUZ Digital Financial <br>
+          </br>Management System{' '}
           <Text component="span" inherit className={classes.highlight}>
             any stack
           </Text>
@@ -28,7 +29,7 @@ export function Hero() {
         </Container>
 
         <div className={classes.controls}>
-          <Button className={classes.control} variant="white" size="lg" ho>
+          <Button className={classes.control} variant="white" size="lg">
             Get started
           </Button>
           <Button className={cx(classes.control, classes.secondaryControl)} size="lg">

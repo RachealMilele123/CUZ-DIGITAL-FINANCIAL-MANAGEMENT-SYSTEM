@@ -9,6 +9,7 @@ import { ContactUs } from './landingPage/contactUs';
 import { ForgotPassword } from './auth/ForgotPassword';
 import { ChooseAccountType } from './auth/ChooseAccountType';
 import { StudentAccountRegister } from './auth/StudentAccountRegister';
+import Overview from './dashBoard/overview';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/choose-account" element={<ChooseAccountType />} />
         <Route path="/register/student" element={<StudentAccountRegister />} />
+        <Route path="/overview" element={<Overview />} />
 
 
       </Routes>
