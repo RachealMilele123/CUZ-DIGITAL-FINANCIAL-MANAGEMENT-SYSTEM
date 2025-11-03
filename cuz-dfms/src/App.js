@@ -9,7 +9,7 @@ import { ContactUs } from './landingPage/contactUs';
 import { ForgotPassword } from './auth/ForgotPassword';
 import { ChooseAccountType } from './register/ChooseAccountType';
 import { StudentAccountRegister } from './register/StudentAccountRegister';
-import Overview from './dashBoard/overview';
+import { Overview } from './dashBoard/overview';
 
 
 function App() {
