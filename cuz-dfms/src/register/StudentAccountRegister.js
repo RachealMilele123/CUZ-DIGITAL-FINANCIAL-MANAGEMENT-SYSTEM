@@ -28,7 +28,7 @@ export function StudentAccountRegister() {
 
   // Handle form submission
   const handleRegister = async () => {
-    if (!name || !email || !number || !studentId || !school || !program || !year || !password || !confirmPassword) {
+    if (!name || !email || !number  || !school || !program || !year || !password || !confirmPassword) {
       alert("Please fill in all fields.");
       return;
     }
@@ -68,7 +68,7 @@ export function StudentAccountRegister() {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Server error. Please make sure the backend is running.");
+      alert("Server error. Please make sure the backend is running."); 
     } finally {
       setLoading(false);
     }
@@ -119,7 +119,7 @@ export function StudentAccountRegister() {
             placeholder="CUZ12345"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
-            required
+            // required
             mt="md"
             radius="md"
           />
