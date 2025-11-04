@@ -1,0 +1,43 @@
+/* ===== Login.module.css ===== */
+
+/* Background styling */
+.background {
+  background: linear-gradient(135deg, rgba(240, 245, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    url('') center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  font-family: 'Outfit', 'Segoe UI', sans-serif;
+}
+
+/* Title styling */
+.title {
+  font-family: 'Outfit', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  color: #1a237e; /* deep blue tone for trust */
+  text-align: center;
+  font-size: 1.9rem;
+  letter-spacing: 0.4px;
+  margin-bottom: 0.3rem;
+}
+
+/* Motto or small paragraph under title */
+.Motto-paragraph {
+  text-align: center;
+  font-size: 1rem;
+  color: #5f6368;
+  margin-top: 0.3rem;
+  margin-bottom: 1.2rem;
+  font-style: italic;
+  letter-spacing: 0.3px;
+  margin:auto;
+}
+
+/* Subtitle text (for account creation link) */
+.subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  text-align:
+}

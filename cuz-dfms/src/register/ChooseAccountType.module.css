@@ -1,0 +1,37 @@
+.background {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #1a1b1e;
+  margin-bottom: 15px;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #d0ebff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  background-color: #1c7ed6;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: #1864ab;
+}
