@@ -1,21 +1,42 @@
 import { Select, TextInput, Button } from "@mantine/core";
 import React, { useState } from "react";
 
-
 const StudentForm = () => (
   <div>
-     <TextInput
-          label="School Name"
-          placeholder="Cavendish University"
-          required
-        />
-         <TextInput
-          label="Course of study"
-          placeholder="Computer Science"
-          required
-        />
+    <TextInput
+      label="School Name"
+      placeholder="Cavendish University"
+      required
+    />
 
-    
+    <NumberInput
+      label="School Bank Account Number"
+      description=""
+      placeholder="123244353754548"
+    />
+    <NumberInput label="Student Number" description="" placeholder="104789" />
+
+    <TextInput
+      label="Course of study"
+      placeholder="Computer Science"
+      required
+    />
+    <NumberInput
+      label="Year Of Study"
+      description=" (1 to 7)"
+      placeholder="Enter your year"
+      min={1}
+      max={7}
+      step={1}
+      clampBehavior="strict"
+      withoutAsterisk
+    />
+
+    <NumberInput
+      label="Expected year of completion"
+      description=""
+      placeholder="2026"
+    />
   </div>
 );
 
@@ -23,15 +44,20 @@ const PersonalForm = () => (
   <div>
     <TextInput label="Full Name" placeholder="Enter your name" required />
     <TextInput label="National ID" placeholder="Enter your ID number" />
-    
   </div>
 );
 
 const BusinessForm = () => (
   <div>
-    <TextInput label="Business Name" placeholder="Enter your business name" required />
-    <TextInput label="Registration No." placeholder="Enter registration number" />
-    
+    <TextInput
+      label="Business Name"
+      placeholder="Enter your business name"
+      required
+    />
+    <TextInput
+      label="Registration No."
+      placeholder="Enter registration number"
+    />
   </div>
 );
 
@@ -39,7 +65,6 @@ const SavingsForm = () => (
   <div>
     <TextInput label="Account Holder Name" placeholder="Enter name" required />
     <TextInput label="Initial Deposit" placeholder="Enter amount" />
-    
   </div>
 );
 
