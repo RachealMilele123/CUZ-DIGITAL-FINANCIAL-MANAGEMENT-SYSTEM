@@ -90,7 +90,6 @@ export function Login() {
                   size="md"
                   radius="md"
                   className={classes.input}
-                  leftSection="📧"
                   {...form.getInputProps("email")}
                 />
 
@@ -100,7 +99,6 @@ export function Login() {
                   size="md"
                   radius="md"
                   className={classes.input}
-                  leftSection="🔒"
                   {...form.getInputProps("password")}
                 />
 
