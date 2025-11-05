@@ -52,7 +52,21 @@ const PersonInfo = ({ form }) => {
           size="md"
           {...form.getInputProps("dateOfBirth")}
         />
-
+        <TextInput
+          label="NRC Number"
+          placeholder="123456/23/1"
+          required
+          size="md"
+          {...form.getInputProps("nationalId")}
+        />
+        {/* tpinNumber */}
+        <TextInput
+          label="TPIN Number"
+          placeholder="1234567890"
+          required
+          size="md"
+          {...form.getInputProps("tpinNumber")}
+        />
         <TextInput
           label="Address"
           placeholder="Lusaka"

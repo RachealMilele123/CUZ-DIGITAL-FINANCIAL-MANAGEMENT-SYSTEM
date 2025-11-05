@@ -19,13 +19,15 @@ function AuthStepper() {
       dateOfBirth: null,
       address: "",
       gender: "",
+      nationalId: "",
+      tpinNumber: "",
 
       // Account Type
       accountType: "",
 
       // Student Account Fields
       schoolName: "",
-      schoolBankAccount: "",
+      // schoolBankAccount: "",
       studentNumber: "",
       courseOfStudy: "",
       yearOfStudy: "",
@@ -33,7 +35,7 @@ function AuthStepper() {
 
       // Personal Account Fields
       personalFullName: "",
-      nationalId: "",
+      // nationalId: "",
 
       // Business Account Fields
       businessName: "",
@@ -75,6 +77,14 @@ function AuthStepper() {
 
       dateOfBirth: (value) => {
         if (!value) return "Date of birth is required";
+        return null;
+      },
+      nationalId: (value) => {
+        if (!value) return "NRC Number is required";
+        return null;
+      },
+      tpinNumber: (value) => {
+        if (!value) return "TPIN Number is required";
         return null;
       },
 
@@ -145,15 +155,15 @@ function AuthStepper() {
         }
         return null;
       },
-      nationalId: (value, values) => {
-        if (
-          values.accountType === "personal" &&
-          (!value || value.trim() === "")
-        ) {
-          return "National ID is required";
-        }
-        return null;
-      },
+      // nationalId: (value, values) => {
+      //   if (
+      //     values.accountType === "personal" &&
+      //     (!value || value.trim() === "")
+      //   ) {
+      //     return "National ID is required";
+      //   }
+      //   return null;
+      // },
 
       // Business Account Validation
       businessName: (value, values) => {
@@ -231,6 +241,8 @@ function AuthStepper() {
           "dateOfBirth",
           "address",
           "gender",
+          "nationalId",
+          "tpinNumber",
         ];
         return personalFields.every((field) => {
           const value = values[field];
@@ -256,7 +268,7 @@ function AuthStepper() {
             ];
             break;
           case "personal":
-            accountTypeFields = ["personalFullName", "nationalId"];
+            accountTypeFields = ["personalFullName"];
             break;
           case "business":
             accountTypeFields = ["businessName", "registrationNumber"];
@@ -318,6 +330,8 @@ function AuthStepper() {
           "dateOfBirth",
           "address",
           "gender",
+          "nationalId",
+          "tpinNumber",
         ];
       case 1:
         let accountFields = ["accountType"];
@@ -356,7 +370,7 @@ function AuthStepper() {
     setActive((current) => (current > 0 ? current - 1 : current));
 
   return (
-    <Container style={{marginTop: '-70px'}} >
+    <Container style={{ marginTop: "-70px" }}>
       <Stepper active={active} onStepClick={setActive}>
         <Stepper.Step
           label="Personal Info"

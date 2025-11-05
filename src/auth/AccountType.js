@@ -11,12 +11,12 @@ const StudentForm = ({ form }) => (
       {...form.getInputProps("schoolName")}
     />
 
-    <TextInput
+    {/* <TextInput
       label="School Bank Account Number"
       size="md"
       placeholder="123244353754548"
       {...form.getInputProps("schoolBankAccount")}
-    />
+    /> */}
 
     <TextInput
       label="Student Number"
