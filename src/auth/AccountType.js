@@ -1,4 +1,4 @@
-import { Select, TextInput, Button } from "@mantine/core";
+import { Select, TextInput, Button, Container } from "@mantine/core";
 import React, { useState, useEffect } from "react";
 import { NumberInput } from "@mantine/core";
 
@@ -123,7 +123,7 @@ const AccountType = ({ form }) => {
   }, [form.getValues().accountType]);
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto" }}>
+    <Container size={600}>
       <Select
         label="Select Account Type"
         placeholder="Pick account type"
@@ -141,7 +141,7 @@ const AccountType = ({ form }) => {
       {selectedAccountType === "personal" && <PersonalForm form={form} />}
       {selectedAccountType === "business" && <BusinessForm form={form} />}
       {selectedAccountType === "savings" && <SavingsForm form={form} />}
-    </div>
+    </Container>
   );
 };
 
