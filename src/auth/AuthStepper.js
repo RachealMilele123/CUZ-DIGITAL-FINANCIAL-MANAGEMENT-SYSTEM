@@ -220,6 +220,7 @@ function AuthStepper() {
   // Validation function for each step
   const validateCurrentStep = () => {
     const values = form.getValues();
+    console.log("Validating step:", values);
 
     switch (active) {
       case 0: // Personal Information step
