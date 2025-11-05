@@ -1,5 +1,6 @@
 import { Select, TextInput, Button } from "@mantine/core";
 import React, { useState } from "react";
+import { NumberInput } from "@mantine/core";
 
 const StudentForm = () => (
   <div>
