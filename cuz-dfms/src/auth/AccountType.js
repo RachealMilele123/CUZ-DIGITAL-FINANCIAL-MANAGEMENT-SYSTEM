@@ -1,41 +1,99 @@
-import { Select } from "@mantine/core";
-import React from "react";
+import { Select, TextInput, Button } from "@mantine/core";
+import React, { useState } from "react";
+import { NumberInput } from "@mantine/core";
+
+const StudentForm = () => (
+  <div>
+    <TextInput
+      label="School Name"
+      placeholder="Cavendish University"
+      required
+    />
+
+    <NumberInput
+      label="School Bank Account Number"
+      description=""
+      placeholder="123244353754548"
+    />
+    <NumberInput label="Student Number" description="" placeholder="104789" />
+
+    <TextInput
+      label="Course of study"
+      placeholder="Computer Science"
+      required
+    />
+    <NumberInput
+      label="Year Of Study"
+      description=" (1 to 7)"
+      placeholder="Enter your year"
+      min={1}
+      max={7}
+      step={1}
+      clampBehavior="strict"
+      withoutAsterisk
+    />
+
+    <NumberInput
+      label="Expected year of completion"
+      description=""
+      placeholder="2026"
+    />
+  </div>
+);
+
+const PersonalForm = () => (
+  <div>
+    <TextInput label="Full Name" placeholder="Enter your name" required />
+    <TextInput label="National ID" placeholder="Enter your ID number" />
+  </div>
+);
+
+const BusinessForm = () => (
+  <div>
+    <TextInput
+      label="Business Name"
+      placeholder="Enter your business name"
+      required
+    />
+    <TextInput
+      label="Registration No."
+      placeholder="Enter registration number"
+    />
+  </div>
+);
+
+const SavingsForm = () => (
+  <div>
+    <TextInput label="Account Holder Name" placeholder="Enter name" required />
+    <TextInput label="Initial Deposit" placeholder="Enter amount" />
+  </div>
+);
 
 const accountType = [
-  {
-    value: "student",
-    label: "Student",
-  },
-  {
-    value: "teacher",
-    label: "Teacher",
-  },
-  {
-    value: "parent",
-    label: "Parent",
-  },
-  {
-    value: "guardian",
-    label: "Guardian",
-  },
+  { value: "student", label: "Student" },
+  { value: "personal", label: "Personal" },
+  { value: "business", label: "Business" },
+  { value: "savings", label: "Savings" },
 ];
 
 const AccountType = () => {
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
 
-  const handleChange = (value) => {
-    console.log("Selected account type:", value);
-  };
   return (
-    <div>
+    <div style={{ maxWidth: 400, margin: "auto" }}>
       <Select
-        label="Your favorite library"
-        placeholder="Pick value"
-        data={accountType.map((type) => ({
-          value: type.value,
-          label: type.label,
-        }))}
+        label="Select Account Type"
+        placeholder="Pick account type"
+        data={accountType}
+        value={value}
+        onChange={setValue}
       />
+
+      {/* Conditional rendering based on selected account */}
+      {value === "student" && <StudentForm />}
+      {value === "personal" && <PersonalForm />}
+      {value === "business" && <BusinessForm />}
+      {value === "savings" && <SavingsForm />}
     </div>
   );
 };

@@ -14,40 +14,47 @@ function AuthStepper() {
     setActive((current) => (current > 0 ? current - 1 : current));
 
   const form = useForm({
-    mode: 'uncontrolled',
+    mode: "uncontrolled",
     initialValues: {
-      email: '',
+      email: "",
       termsOfService: false,
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
 
   return (
     <Container>
+
       <Stepper active={active} onStepClick={setActive}>
         <Stepper.Step label="Person Info">
           <PersonInfo form={form} />
         </Stepper.Step>
+
         <Stepper.Step label="Account Type">
           <AccountType />
         </Stepper.Step>
+
         <Stepper.Step label="Create Password">
           <CreatePassword />
         </Stepper.Step>
+        
         <Stepper.Completed>
           <Preview />
         </Stepper.Completed>
       </Stepper>
-<br />
+
+      <br />
+
       <Group justify="space-between">
         <Button variant="default" onClick={prevStep}>
           Back
         </Button>
         <Button onClick={nextStep}>Next step</Button>
       </Group>
+
     </Container>
   );
 }
