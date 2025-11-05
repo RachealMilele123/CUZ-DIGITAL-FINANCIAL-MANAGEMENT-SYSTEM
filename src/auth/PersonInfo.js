@@ -31,10 +31,10 @@ const PersonInfo = ({ form }) => {
         {...form.getInputProps("email")}
       />
 
-      <TextInput 
-        label="Phone" 
-        placeholder="+260" 
-        size="md" 
+      <TextInput
+        label="Phone"
+        placeholder="+260"
+        size="md"
         required
         {...form.getInputProps("phone")}
       />
@@ -51,11 +51,11 @@ const PersonInfo = ({ form }) => {
         {...form.getInputProps("dateOfBirth")}
       />
 
-      <TextInput 
-        label="Address" 
-        placeholder="Lusaka" 
-        required 
-        size="md" 
+      <TextInput
+        label="Address"
+        placeholder="Lusaka"
+        required
+        size="md"
         {...form.getInputProps("address")}
       />
 

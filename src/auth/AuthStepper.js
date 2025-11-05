@@ -23,6 +23,26 @@ function AuthStepper() {
       // Account Type
       accountType: "",
 
+      // Student Account Fields
+      schoolName: "",
+      schoolBankAccount: "",
+      studentNumber: "",
+      courseOfStudy: "",
+      yearOfStudy: "",
+      expectedCompletion: "",
+
+      // Personal Account Fields
+      personalFullName: "",
+      nationalId: "",
+
+      // Business Account Fields
+      businessName: "",
+      registrationNumber: "",
+
+      // Savings Account Fields
+      accountHolderName: "",
+      initialDeposit: "",
+
       // Password
       password: "",
       confirmPassword: "",
@@ -74,6 +94,107 @@ function AuthStepper() {
         return null;
       },
 
+      // Student Account Validation
+      schoolName: (value, values) => {
+        if (
+          values.accountType === "student" &&
+          (!value || value.trim() === "")
+        ) {
+          return "School name is required";
+        }
+        return null;
+      },
+      studentNumber: (value, values) => {
+        if (
+          values.accountType === "student" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Student number is required";
+        }
+        return null;
+      },
+      courseOfStudy: (value, values) => {
+        if (
+          values.accountType === "student" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Course of study is required";
+        }
+        return null;
+      },
+      yearOfStudy: (value, values) => {
+        if (values.accountType === "student" && !value) {
+          return "Year of study is required";
+        }
+        return null;
+      },
+      expectedCompletion: (value, values) => {
+        if (values.accountType === "student" && !value) {
+          return "Expected completion year is required";
+        }
+        return null;
+      },
+
+      // Personal Account Validation
+      personalFullName: (value, values) => {
+        if (
+          values.accountType === "personal" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Full name is required";
+        }
+        return null;
+      },
+      nationalId: (value, values) => {
+        if (
+          values.accountType === "personal" &&
+          (!value || value.trim() === "")
+        ) {
+          return "National ID is required";
+        }
+        return null;
+      },
+
+      // Business Account Validation
+      businessName: (value, values) => {
+        if (
+          values.accountType === "business" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Business name is required";
+        }
+        return null;
+      },
+      registrationNumber: (value, values) => {
+        if (
+          values.accountType === "business" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Registration number is required";
+        }
+        return null;
+      },
+
+      // Savings Account Validation
+      accountHolderName: (value, values) => {
+        if (
+          values.accountType === "savings" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Account holder name is required";
+        }
+        return null;
+      },
+      initialDeposit: (value, values) => {
+        if (
+          values.accountType === "savings" &&
+          (!value || value.trim() === "")
+        ) {
+          return "Initial deposit is required";
+        }
+        return null;
+      },
+
       // Password Validation
       password: (value) => {
         if (!value) return "Password is required";
@@ -117,7 +238,38 @@ function AuthStepper() {
         });
 
       case 1: // Account Type step
-        return values.accountType && !form.validateField("accountType").error;
+        if (!values.accountType || form.validateField("accountType").error) {
+          return false;
+        }
+
+        // Check conditional fields based on account type
+        let accountTypeFields = [];
+        switch (values.accountType) {
+          case "student":
+            accountTypeFields = [
+              "schoolName",
+              "studentNumber",
+              "courseOfStudy",
+              "yearOfStudy",
+              "expectedCompletion",
+            ];
+            break;
+          case "personal":
+            accountTypeFields = ["personalFullName", "nationalId"];
+            break;
+          case "business":
+            accountTypeFields = ["businessName", "registrationNumber"];
+            break;
+          case "savings":
+            accountTypeFields = ["accountHolderName", "initialDeposit"];
+            break;
+        }
+
+        return accountTypeFields.every((field) => {
+          const value = values[field];
+          const error = form.validateField(field).error;
+          return value && !error;
+        });
 
       case 2: // Password step
         const passwordFields = [
@@ -154,6 +306,8 @@ function AuthStepper() {
 
   // Helper function to get current step fields
   const getCurrentStepFields = () => {
+    const values = form.getValues();
+
     switch (active) {
       case 0:
         return [
@@ -165,7 +319,31 @@ function AuthStepper() {
           "gender",
         ];
       case 1:
-        return ["accountType"];
+        let accountFields = ["accountType"];
+
+        // Add conditional fields based on selected account type
+        switch (values.accountType) {
+          case "student":
+            accountFields.push(
+              "schoolName",
+              "studentNumber",
+              "courseOfStudy",
+              "yearOfStudy",
+              "expectedCompletion"
+            );
+            break;
+          case "personal":
+            accountFields.push("personalFullName", "nationalId");
+            break;
+          case "business":
+            accountFields.push("businessName", "registrationNumber");
+            break;
+          case "savings":
+            accountFields.push("accountHolderName", "initialDeposit");
+            break;
+        }
+
+        return accountFields;
       case 2:
         return ["password", "confirmPassword", "termsOfService"];
       default:
