@@ -20,7 +20,10 @@ import { toast } from "react-toastify";
 const Balance = () => {
   const [balanceData, setBalanceData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  localStorage.setItem("accountNumber", balanceData?.account?.accountNumber || "");
+  localStorage.setItem(
+    "accountNumber",
+    balanceData?.account?.accountNumber || ""
+  );
 
   const fetchBalanceData = async () => {
     setIsLoading(true);
@@ -107,7 +110,7 @@ const Balance = () => {
             Current Balance
           </Text>
           <Text size="2.5rem" fw={700} c="blue" lh={1}>
-            {formatAmount(balanceData?.account?.currentBalance || 150000)}
+            {formatAmount(balanceData?.account?.currentBalance)}
           </Text>
           <Text size="sm" c="green" fw={500}>
             Available for withdrawal
