@@ -8,7 +8,7 @@ const getAuthToken = () => {
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/login`,
+      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/login`,
       {
         method: "POST",
         headers: {
@@ -58,7 +58,7 @@ export const loginUser = async (email, password) => {
 export const registerUser = async (payload) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/register`,
+      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/register`,
       {
         method: "POST",
         headers: {
@@ -99,7 +99,7 @@ export const accountBalance = async () => {
     }
 
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/balance`,
+      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/balance`,
       {
         method: "GET",
         headers: {
@@ -147,7 +147,7 @@ export const accountBalance = async () => {
 export const transaction = async (payload) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/transfer`,
+      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/transfer`,
       {
         method: "POST",
         headers: {
@@ -206,7 +206,7 @@ export const transactionHistory = async (accountNumber) => {
     }
 
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/transactions/${accountNumber}`,
+      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/transactions/${accountNumber}`,
       {
         method: "GET",
         headers: {

@@ -225,7 +225,7 @@ function AuthStepper() {
   };
 
   return (
-    <Container style={{ marginTop: "-70px" }}>
+    <Container >
       <Stepper active={active} onStepClick={setActive}>
         <Stepper.Step
           label="Personal Info"
