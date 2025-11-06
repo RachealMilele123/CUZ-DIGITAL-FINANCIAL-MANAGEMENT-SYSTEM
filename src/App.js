@@ -25,6 +25,7 @@ import Transfer from "./dashBoard/Transfer.js";
 import Beneficiary from "./dashBoard/Beneficiary.js";
 import Notifications from "./dashBoard/Notifications.js";
 import Receipts from "./dashBoard/Receipts.js";
+import Aboutus from "./landingPage/Aboutus.js";
 
 function App() {
   return (
@@ -60,6 +61,18 @@ function App() {
                   <PublicLayout>
                     <Navigation />
                     <Login />
+                  </PublicLayout>
+                </PublicRoute>
+              }
+            />
+
+              <Route
+              path="/about-us"
+              element={
+                <PublicRoute>
+                  <PublicLayout>
+                    <Navigation />
+                    <Aboutus />
                   </PublicLayout>
                 </PublicRoute>
               }

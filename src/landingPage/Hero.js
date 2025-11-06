@@ -26,7 +26,7 @@ import classes from "./Hero.module.css";
 
 export function Hero() {
   return (
-    <Box style={{ marginTop: "-120px" }} className={classes.wrapper}>
+    <Box style={{ marginTop: "-80px" }} className={classes.wrapper}>
       {/* Hero Section */}
       <Container size="xl" py={{ base: 60, md: 100 }}>
         <Grid align="center" gutter={{ base: 20, md: 40 }}>
