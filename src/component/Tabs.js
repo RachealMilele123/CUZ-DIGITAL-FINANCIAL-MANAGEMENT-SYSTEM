@@ -36,7 +36,7 @@ function TabBars({ allTransactions }) {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="gallery">
+        <Tabs.Panel value="all_transactions">
           {" "}
           <ReusableTable transaction={AvailableTransaction} />{" "}
         </Tabs.Panel>
