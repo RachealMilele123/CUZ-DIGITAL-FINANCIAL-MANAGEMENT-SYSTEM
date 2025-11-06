@@ -9,7 +9,7 @@ import {
   ActionIcon,
   Loader,
 } from "@mantine/core";
-import { IconEye, IconEyeOff, IconRefresh } from "@tabler/icons-react";
+import { IconEye, IconRefresh } from "@tabler/icons-react";
 import { useAuth } from "../contexts/AuthContext";
 import { accountBalance } from "../services/authService";
 import Loading from "../component/Loading";
@@ -44,14 +44,15 @@ const Balance = () => {
 
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="lg">
         <Group justify="space-between" mb="md">
-          <div>
+          <Stack spacing={2}>
             <Text size="sm" c="dimmed">
-              Current Account
+              {balanceData?.account?.accountType} Account
             </Text>
+            <Text fw={500}>{balanceData?.account?.accountNumber}</Text>
             <Text fw={500}>Main Balance</Text>
-          </div>
+          </Stack>
           <Badge color="green" variant="light">
-            Active
+            {balanceData?.summary?.accountStatus}
           </Badge>
         </Group>
 
@@ -63,14 +64,7 @@ const Balance = () => {
           Available: {formatAmount(balanceData?.account?.currentBalance)}
         </Text>
 
-        <Group mt="md">
-          <ActionIcon variant="light" size="sm">
-            <IconEye size={16} />
-          </ActionIcon>
-          <ActionIcon variant="light" size="sm">
-            <IconRefresh size={16} />
-          </ActionIcon>
-        </Group>
+        
       </Card>
 
       <Text c="dimmed" ta="center">
