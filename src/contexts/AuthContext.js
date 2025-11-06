@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  console.log("auth user:", user);
+
   // Check for existing token on component mount
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
@@ -38,6 +40,7 @@ export const AuthProvider = ({ children }) => {
 
   // Login function
   const login = (userToken, userData = null) => {
+
     localStorage.setItem("authToken", userToken);
     if (userData) {
       localStorage.setItem("user", JSON.stringify(userData));

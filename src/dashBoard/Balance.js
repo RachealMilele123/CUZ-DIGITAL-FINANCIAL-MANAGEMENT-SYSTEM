@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 const Balance = () => {
   const [balanceData, setBalanceData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  localStorage.setItem("accountNumber", balanceData?.account?.accountNumber || "");
 
   const fetchBalanceData = async () => {
     setIsLoading(true);

@@ -143,3 +143,53 @@ export const accountBalance = async () => {
     }
   }
 };
+
+export const transaction = async (payload) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/transfer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await response.json();
+    console.log("Transaction response:", data);
+
+    if (response.ok) {
+      // Success response (status 200-299)
+      toast.success("Transaction successful!");
+      return {
+        success: true,
+        data: data,
+      };
+    } else {
+      // Error response (status 400-599)
+      toast.error("Transaction failed:", data.error || data.message);
+      return {
+        success: false,
+        error: data.error || "Transaction failed. Please try again.",
+      };
+    }
+  } catch (error) {
+    toast.error("Network error:", error.message);
+
+    if (error.message === "Failed to fetch") {
+      return {
+        success: false,
+        error:
+          "Unable to connect to server. Please ensure the backend server is running on http://localhost:8000",
+      };
+    } else {
+      return {
+        success: false,
+        error: "Network error. Please check your connection and try again.",
+      };
+    }
+  }
+};
