@@ -20,6 +20,7 @@ import TabBars from "../component/Tabs";
 const Transfer = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [summary, setSummary] = useState();
+  const [allTransactions, setAllTransactions] = useState([]);
 
   const accountNumber = localStorage.getItem("accountNumber");
   console.log("Account Number from localStorage:", accountNumber);
@@ -77,8 +78,9 @@ const Transfer = () => {
 
   const fetchTransactionHistory = async () => {
     const response = await transactionHistory(accountNumber);
-console.log("Transaction history response:", response);
+    console.log("Transaction history response:", response);
     setSummary(response.data.summary);
+    setAllTransactions(response);
     if (response.success) {
       console.log("Transaction history successful:", response.data);
     } else {
@@ -151,7 +153,7 @@ console.log("Transaction history response:", response);
       </Modal>
 
       <Stats summary={summary} />
-      <TabBars />
+      <TabBars allTransactions={allTransactions} />
     </>
   );
 };
