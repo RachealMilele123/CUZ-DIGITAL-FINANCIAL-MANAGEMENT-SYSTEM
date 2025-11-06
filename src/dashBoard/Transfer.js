@@ -15,6 +15,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { transaction, transactionHistory } from "../services/authService";
 import { useDisclosure } from "@mantine/hooks";
 import { Stats } from "../component/Stats";
+import TabBars from "../component/Tabs";
 
 const Transfer = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -76,7 +77,7 @@ const Transfer = () => {
 
   const fetchTransactionHistory = async () => {
     const response = await transactionHistory(accountNumber);
-
+console.log("Transaction history response:", response);
     setSummary(response.data.summary);
     if (response.success) {
       console.log("Transaction history successful:", response.data);
@@ -150,6 +151,7 @@ const Transfer = () => {
       </Modal>
 
       <Stats summary={summary} />
+      <TabBars />
     </>
   );
 };
