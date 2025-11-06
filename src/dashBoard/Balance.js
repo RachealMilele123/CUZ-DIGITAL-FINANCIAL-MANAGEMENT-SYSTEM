@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Text,
@@ -7,13 +7,34 @@ import {
   Stack,
   Badge,
   ActionIcon,
+  Loader,
 } from "@mantine/core";
 import { IconEye, IconEyeOff, IconRefresh } from "@tabler/icons-react";
 import { useAuth } from "../contexts/AuthContext";
+import { accountBalance } from "../services/authService";
+import Loading from "../component/Loading";
 
 const Balance = () => {
   const { user } = useAuth();
+  const [balanceData, setBalanceData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchBalanceData = async () => {
+    setIsLoading(true);
+    // Placeholder for future API call to fetch balance data
+    const response = await accountBalance();
+    setBalanceData(response.data);
+    setIsLoading(false);
+    console.log("Fetched balance data:", response.data);
+  };
+
+  useEffect(() => {
+    fetchBalanceData();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <Container size="lg" p="md">
       <Text size="2rem" fw={700} mb="xl">
@@ -34,11 +55,11 @@ const Balance = () => {
         </Group>
 
         <Text size="2.5rem" fw={700} c="blue" mb="xs">
-          ZMW 2,450.75
+          ZMW {balanceData?.account?.currentBalance}
         </Text>
 
         <Text size="sm" c="dimmed">
-          Available: ZMW 2,325.25
+          Available: {balanceData?.account?.currentBalance}
         </Text>
 
         <Group mt="md">

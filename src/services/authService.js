@@ -1,5 +1,10 @@
 import { toast } from "react-toastify";
 
+// Helper function to get token from localStorage
+const getAuthToken = () => {
+  return localStorage.getItem("authToken");
+};
+
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(
@@ -79,5 +84,62 @@ export const registerUser = async (payload) => {
     console.error("Network error:", error);
     toast.error("Network error. Please check your connection and try again.");
     return { success: false, error: "Network error", data: null };
+  }
+};
+
+export const accountBalance = async () => {
+  try {
+    const token = getAuthToken();
+
+    if (!token) {
+      return {
+        success: false,
+        error: "No authentication token found. Please login again.",
+      };
+    }
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/balance`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log("Account Balance response:", data);
+
+    if (response.ok) {
+      // Success response (status 200-299)
+      return {
+        success: true,
+        data: data,
+      };
+    } else {
+      // Error response (status 400-599)
+      console.error("Account Balance failed:", data.error || data.message);
+      return {
+        success: false,
+        error: data.error || "Account Balance failed. Please try again.",
+      };
+    }
+  } catch (error) {
+    console.error("Network error:", error.message);
+
+    if (error.message === "Failed to fetch") {
+      return {
+        success: false,
+        error:
+          "Unable to connect to server. Please ensure the backend server is running on http://localhost:8000",
+      };
+    } else {
+      return {
+        success: false,
+        error: "Network error. Please check your connection and try again.",
+      };
+    }
   }
 };
