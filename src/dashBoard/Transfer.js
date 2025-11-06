@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Modal,
@@ -90,10 +91,23 @@ const Transfer = () => {
 
   return (
     <>
-      <Text size="xl" c="black" mt="lg">
-        Transfer
-      </Text>
-
+      <Container>
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+          mb="xl"
+        >
+          <Text size="xl" c="black" mt="lg">
+            Transfer
+          </Text>
+          <Button variant="default" c="white" bg="blue" curser="pointer">
+            Tranfer Money
+          </Button>
+        </Box>
+      </Container>
       <Modal
         opened={opened}
         onClose={close}
@@ -134,10 +148,6 @@ const Transfer = () => {
           </form>
         </Stack>
       </Modal>
-
-      <Button variant="default" onClick={open}>
-        Tranfer Money
-      </Button>
 
       <Stats summary={summary} />
     </>
