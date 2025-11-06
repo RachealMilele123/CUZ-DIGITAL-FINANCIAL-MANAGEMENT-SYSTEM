@@ -3,17 +3,17 @@ import {
   Burger,
   Container,
   Group,
-  Image,
   Paper,
   Transition,
   Stack,
   Text,
   Box,
+  ThemeIcon,
 } from "@mantine/core";
+import { IconBuildingBank, IconShield } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { Link, useLocation } from "react-router-dom";
 import classes from "./component.module.css";
-import logo from "../images/logo.png";
 
 const links = [
   { link: "/", label: "Home" },
@@ -67,17 +67,75 @@ export function Navigation() {
     <>
       <header className={classes.header}>
         <Container size="lg" className={classes.inner}>
-          <Link to="/" onClick={close}>
+          <Link to="/" onClick={close} style={{ textDecoration: "none" }}>
             <Group gap="xs" style={{ cursor: "pointer" }}>
-              <Image src={logo} alt="Forever Trust Bank" w={40} h={40} />
+              {/* Custom Logo Design */}
+              <Box style={{ position: "relative" }}>
+                <ThemeIcon
+                  size={44}
+                  radius="md"
+                  variant="gradient"
+                  gradient={{ from: "blue", to: "cyan", deg: 135 }}
+                  style={{
+                    boxShadow: "0 4px 12px rgba(34, 139, 230, 0.3)",
+                  }}
+                >
+                  <IconBuildingBank size="1.6rem" stroke={2} />
+                </ThemeIcon>
+                <ThemeIcon
+                  size={18}
+                  radius="xl"
+                  variant="gradient"
+                  gradient={{ from: "green", to: "teal", deg: 45 }}
+                  style={{
+                    position: "absolute",
+                    bottom: -2,
+                    right: -2,
+                    border: "2px solid white",
+                    boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)",
+                  }}
+                >
+                  <IconShield size="0.7rem" stroke={2.5} />
+                </ThemeIcon>
+              </Box>
+
+              {/* Mobile Logo Text */}
               <Box hiddenFrom="sm">
-                <Text size="lg" fw={700} c="blue">
+                <Text
+                  size="lg"
+                  fw={800}
+                  variant="gradient"
+                  gradient={{ from: "blue", to: "cyan", deg: 45 }}
+                  style={{ lineHeight: 1 }}
+                >
                   FTB
                 </Text>
+                <Text
+                  size="xs"
+                  c="dimmed"
+                  style={{ lineHeight: 1, marginTop: -2 }}
+                >
+                  Digital Bank
+                </Text>
               </Box>
+
+              {/* Desktop Logo Text */}
               <Box visibleFrom="sm">
-                <Text size="lg" fw={700} c="blue">
+                <Text
+                  size="xl"
+                  fw={800}
+                  variant="gradient"
+                  gradient={{ from: "blue", to: "cyan", deg: 45 }}
+                  style={{ lineHeight: 1 }}
+                >
                   Forever Trust Bank
+                </Text>
+                <Text
+                  size="xs"
+                  c="dimmed"
+                  style={{ lineHeight: 1, marginTop: 2 }}
+                >
+                  Digital Financial Management System
                 </Text>
               </Box>
             </Group>
