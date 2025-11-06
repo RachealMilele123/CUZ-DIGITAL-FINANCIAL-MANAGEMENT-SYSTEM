@@ -43,18 +43,18 @@ const Balance = () => {
       </Text>
 
       <Card shadow="sm" padding="lg" radius="md" withBorder mb="lg">
-        <Group justify="space-between" mb="md">
-          <Stack spacing={2}>
+        <Stack spacing={2}>
+          <Group justify="space-between" mb="md">
             <Text size="sm" c="dimmed">
               {balanceData?.account?.accountType} Account
             </Text>
-            <Text fw={500}>{balanceData?.account?.accountNumber}</Text>
-            <Text fw={500}>Main Balance</Text>
-          </Stack>
-          <Badge color="green" variant="light">
-            {balanceData?.summary?.accountStatus}
-          </Badge>
-        </Group>
+            <Badge color="green" variant="light">
+              {balanceData?.summary?.accountStatus}
+            </Badge>
+          </Group>
+          <Text fw={500}>{balanceData?.account?.accountNumber}</Text>
+          <Text fw={500}>Main Balance</Text>
+        </Stack>
 
         <Text size="2.5rem" fw={700} c="blue" mb="xs">
           {formatAmount(balanceData?.account?.currentBalance)}
@@ -63,8 +63,6 @@ const Balance = () => {
         <Text size="sm" c="dimmed">
           Available: {formatAmount(balanceData?.account?.currentBalance)}
         </Text>
-
-        
       </Card>
 
       <Text c="dimmed" ta="center">
