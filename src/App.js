@@ -26,6 +26,7 @@ import Beneficiary from "./dashBoard/Beneficiary.js";
 import Notifications from "./dashBoard/Notifications.js";
 import Receipts from "./dashBoard/Receipts.js";
 import Aboutus from "./landingPage/Aboutus.js";
+import Deposit from "./admin/Deposit.js";
 
 function App() {
   return (
@@ -66,7 +67,7 @@ function App() {
               }
             />
 
-              <Route
+            <Route
               path="/about-us"
               element={
                 <PublicRoute>
@@ -128,6 +129,7 @@ function App() {
               <Route path="beneficiary" element={<Beneficiary />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="receipts" element={<Receipts />} />
+              <Route path="deposit" element={<Deposit />} />
             </Route>
           </Routes>
         </Router>

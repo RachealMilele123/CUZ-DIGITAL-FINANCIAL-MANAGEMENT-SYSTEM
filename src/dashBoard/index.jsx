@@ -37,6 +37,7 @@ const data = [
   { link: "beneficiary", label: "Add Beneficiary", icon: IconUserPlus },
   { link: "notifications", label: "Notifications", icon: IconBellRinging },
   { link: "receipts", label: "Receipts", icon: IconReceipt },
+  { link: "deposit", label: "Deposit", icon: IconReceipt2 },
 ];
 
 export function Dashboard() {
@@ -53,6 +54,7 @@ export function Dashboard() {
     if (path.endsWith("/beneficiary")) return "Add Beneficiary";
     if (path.endsWith("/notifications")) return "Notifications";
     if (path.endsWith("/receipts")) return "Receipts";
+    if (path.endsWith("/deposit")) return "Deposit";
     return "Balance"; // default
   };
 
