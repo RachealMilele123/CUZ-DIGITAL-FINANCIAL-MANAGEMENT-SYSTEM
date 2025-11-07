@@ -35,6 +35,7 @@ import {
 } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { toast } from "react-toastify";
+import { depositFunds } from "../services/authService";
 
 const Deposit = () => {
   const [loading, setLoading] = useState(false);
@@ -93,9 +94,16 @@ const Deposit = () => {
 
   const handleDeposit = async (values) => {
     setLoading(true);
+    const payload = {
+      accountNumber: values.accountNumber,
+      amount: values.amount,
+      description: values.description,
+    };
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await depositFunds(payload);
+      console.log("deposit response:", response);
+      //   await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Add to recent deposits
       const newDeposit = {
@@ -110,7 +118,7 @@ const Deposit = () => {
       setRecentDeposits((prev) => [newDeposit, ...prev.slice(0, 4)]);
 
       toast.success(
-        `Successfully deposited RWF ${values.amount.toLocaleString()} to ${
+        `Successfully deposited k ${values.amount.toLocaleString()} to ${
           values.accountNumber
         }`
       );
@@ -265,7 +273,7 @@ const Deposit = () => {
                       gradient={{ from: "blue", to: "cyan", deg: 45 }}
                       leftSection={<IconCheck size="1.2rem" />}
                       loading={loading}
-                    //   disabled={!form.isValid()}
+                      //   disabled={!form.isValid()}
                     >
                       {loading ? "Processing Deposit..." : "Process Deposit"}
                     </Button>
