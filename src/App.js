@@ -16,7 +16,7 @@ import { StudentAccountRegister } from "./register/StudentAccountRegister";
 import AuthStepper from "./auth/AuthStepper";
 import { Dashboard } from "./dashBoard/index.jsx";
 import Balance from "./dashBoard/Balance";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ProtectedRoute, PublicRoute } from "./routes/ProtectedRoute.js";
 import { DashboardLayout, PublicLayout } from "./routes/Layout.js";
 import { ToastContainer } from "react-toastify";

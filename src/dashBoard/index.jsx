@@ -31,13 +31,18 @@ import { useDisclosure } from "@mantine/hooks";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./dashBoard.module.css";
 
-const data = [
+const allRoutes = [
   { link: "balance", label: "Balance", icon: IconLibrary },
   { link: "transfer", label: "Pay & Transfer", icon: IconTransfer },
   { link: "beneficiary", label: "Add Beneficiary", icon: IconUserPlus },
   { link: "notifications", label: "Notifications", icon: IconBellRinging },
   { link: "receipts", label: "Receipts", icon: IconReceipt },
+  // { link: "deposit", label: "Deposit", icon: IconReceipt2 },
+];
+
+const adminRoutes = [
   { link: "deposit", label: "Deposit", icon: IconReceipt2 },
+  { link: "receipts", label: "Receipts", icon: IconReceipt },
 ];
 
 export function Dashboard() {
@@ -55,7 +60,8 @@ export function Dashboard() {
     if (path.endsWith("/notifications")) return "Notifications";
     if (path.endsWith("/receipts")) return "Receipts";
     if (path.endsWith("/deposit")) return "Deposit";
-    return "Balance"; // default
+    // Default based on user type
+    return user && user.type === "admin" ? "Deposit" : "Balance";
   };
 
   console.log("Dashboard user:", user?.name);
@@ -63,6 +69,9 @@ export function Dashboard() {
     logout();
     navigate("/login");
   };
+
+  // Determine which routes to show based on user type
+  const data = user && user.type === "admin" ? adminRoutes : allRoutes;
 
   const links = data.map((item) => (
     <Link

@@ -45,7 +45,12 @@ export function Login() {
       if (result.token) {
         login(result.token, result.user);
       }
-      navigate("/overview/balance");
+      // Check user type and route accordingly
+      if (result.user && result.user.type === "admin") {
+        navigate("/overview/deposit");
+      } else {
+        navigate("/overview/balance");
+      }
     } else {
       setError(result.error);
     }
@@ -86,8 +91,7 @@ export function Login() {
       >
         <Box className={classes.loginWrapper}>
           {/* Bank Logo/Icon Section */}
-          <Box className={classes.logoSection}>
-          </Box>
+          <Box className={classes.logoSection}></Box>
 
           {/* Login Form */}
           <Paper className={classes.loginForm} shadow="xl" radius="lg" p={32}>
