@@ -35,36 +35,12 @@ import {
 } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { toast } from "react-toastify";
-import { depositFunds } from "../services/authService";
+import { depositFunds, getRecentDeposits } from "../services/authService";
+import { formatAmount } from "../schemaValidation/Helpers";
 
 const Deposit = () => {
   const [loading, setLoading] = useState(false);
-  const [recentDeposits, setRecentDeposits] = useState([
-    {
-      id: 1,
-      accountNumber: "STU-870653366",
-      amount: 75000,
-      description: "Tuition fee deposit",
-      timestamp: "2 hours ago",
-      status: "completed",
-    },
-    {
-      id: 2,
-      accountNumber: "STU-923847572",
-      amount: 45000,
-      description: "Accommodation payment",
-      timestamp: "5 hours ago",
-      status: "completed",
-    },
-    {
-      id: 3,
-      accountNumber: "STU-456789123",
-      amount: 25000,
-      description: "Meal plan deposit",
-      timestamp: "1 day ago",
-      status: "pending",
-    },
-  ]);
+  const [recentDeposits, setRecentDeposits] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -115,7 +91,7 @@ const Deposit = () => {
         status: "completed",
       };
 
-      setRecentDeposits((prev) => [newDeposit, ...prev.slice(0, 4)]);
+    //   setRecentDeposits((prev) => [newDeposit, ...prev.slice(0, 4)]);
 
       toast.success(
         `Successfully deposited k ${values.amount.toLocaleString()} to ${
@@ -130,13 +106,23 @@ const Deposit = () => {
     }
   };
 
-  const formatAmount = (amount) => {
-    return new Intl.NumberFormat("en-RW", {
-      style: "currency",
-      currency: "RWF",
-      minimumFractionDigits: 0,
-    }).format(amount);
+  const fetchRecentDeposits = async () => {
+    try {
+      const response = await getRecentDeposits();
+      console.log("fetchRecentDeposits response:", response);
+      if (response.success) {
+        setRecentDeposits(response.data);
+      }
+    } catch (error) {
+      console.error("fetchRecentDeposits error:", error);
+    }
   };
+
+  React.useEffect(() => {
+    fetchRecentDeposits();
+  }, []);
+
+  
 
   return (
     <Box
@@ -337,7 +323,7 @@ const Deposit = () => {
                 </Group>
 
                 <Stack spacing="xs">
-                  {recentDeposits.map((deposit) => (
+                  {recentDeposits?.deposits?.map((deposit) => (
                     <Paper
                       key={deposit.id}
                       p="sm"
@@ -347,18 +333,18 @@ const Deposit = () => {
                       <Group justify="space-between" align="center">
                         <Box>
                           <Text size="sm" fw={500}>
-                            {deposit.accountNumber}
+                            {deposit?.account?.accountNumber}
                           </Text>
                           <Text size="xs" c="dimmed">
                             {deposit.description}
                           </Text>
                           <Text size="xs" c="dimmed">
-                            {deposit.timestamp}
+                            {deposit.createdAt}
                           </Text>
                         </Box>
                         <Box ta="right">
                           <Text size="sm" fw={600} c="green">
-                            {formatAmount(deposit.amount)}
+                            {formatAmount(deposit?.amount)}
                           </Text>
                           <Badge
                             size="xs"
