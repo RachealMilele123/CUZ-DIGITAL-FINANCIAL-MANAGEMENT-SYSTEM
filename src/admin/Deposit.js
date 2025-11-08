@@ -38,6 +38,7 @@ import { toast } from "react-toastify";
 import { depositFunds, getRecentDeposits } from "../services/authService";
 import { formatAmount } from "../schemaValidation/Helpers";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const Deposit = () => {
   const [loading, setLoading] = useState(false);
@@ -149,14 +150,6 @@ const Deposit = () => {
               </Box>
             </Group>
           </Box>
-          <Badge
-            size="lg"
-            variant="light"
-            color="green"
-            leftSection={<IconCheck size="1rem" />}
-          >
-            System Online
-          </Badge>
         </Group>
 
         <Grid>

@@ -42,6 +42,7 @@ const allRoutes = [
 
 const adminRoutes = [
   { link: "deposit", label: "Deposit", icon: IconReceipt2 },
+  { link: "deposits", label: "View Deposits", icon: IconReceipt2 },
   { link: "receipts", label: "Receipts", icon: IconReceipt },
 ];
 
