@@ -10,8 +10,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import  { useEffect, useState } from "react";
 import { transaction, transactionHistory } from "../services/authService";
 import { useDisclosure } from "@mantine/hooks";
 import { Stats } from "../component/Stats";

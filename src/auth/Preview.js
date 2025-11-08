@@ -6,14 +6,12 @@ import {
   Text,
   Group,
   Stack,
-  Divider,
   Badge,
   Card,
   Grid,
   Box,
   ThemeIcon,
   List,
-  Button,
 } from "@mantine/core";
 import {
   IconUser,

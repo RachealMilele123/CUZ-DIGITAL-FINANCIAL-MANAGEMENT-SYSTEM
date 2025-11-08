@@ -12,11 +12,10 @@ import { Navigation } from "./component/NavBar";
 import ContactUs from "./landingPage/contactUs";
 import { ForgotPassword } from "./auth/ForgotPassword";
 import { ChooseAccountType } from "./register/ChooseAccountType";
-import { StudentAccountRegister } from "./register/StudentAccountRegister";
 import AuthStepper from "./auth/AuthStepper";
 import { Dashboard } from "./dashBoard/index.jsx";
 import Balance from "./dashBoard/Balance";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute, PublicRoute } from "./routes/ProtectedRoute.js";
 import { DashboardLayout, PublicLayout } from "./routes/Layout.js";
 import { ToastContainer } from "react-toastify";
@@ -27,6 +26,7 @@ import Notifications from "./dashBoard/Notifications.js";
 import Receipts from "./dashBoard/Receipts.js";
 import Aboutus from "./landingPage/Aboutus.js";
 import Deposit from "./admin/Deposit.js";
+import ViewDeposits from "./admin/ViewDeposits.js";
 
 function App() {
   return (
@@ -130,6 +130,7 @@ function App() {
               <Route path="notifications" element={<Notifications />} />
               <Route path="receipts" element={<Receipts />} />
               <Route path="deposit" element={<Deposit />} />
+              <Route path="deposits" element={<ViewDeposits />} />
             </Route>
           </Routes>
         </Router>

@@ -18,53 +18,25 @@ import {
   Alert,
   ActionIcon,
   Divider,
-  Avatar,
 } from "@mantine/core";
 import {
   IconCreditCard,
   IconWallet,
   IconUser,
   IconCheck,
-  IconX,
   IconRefresh,
   IconHistory,
   IconAlertCircle,
-  IconSchool,
   IconBuildingBank,
-  IconTrendingUp,
 } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { toast } from "react-toastify";
-import { depositFunds } from "../services/authService";
+import { depositFunds, getRecentDeposits } from "../services/authService";
+import { formatAmount } from "../schemaValidation/Helpers";
+import moment from "moment";
 
 const Deposit = () => {
   const [loading, setLoading] = useState(false);
-  const [recentDeposits, setRecentDeposits] = useState([
-    {
-      id: 1,
-      accountNumber: "STU-870653366",
-      amount: 75000,
-      description: "Tuition fee deposit",
-      timestamp: "2 hours ago",
-      status: "completed",
-    },
-    {
-      id: 2,
-      accountNumber: "STU-923847572",
-      amount: 45000,
-      description: "Accommodation payment",
-      timestamp: "5 hours ago",
-      status: "completed",
-    },
-    {
-      id: 3,
-      accountNumber: "STU-456789123",
-      amount: 25000,
-      description: "Meal plan deposit",
-      timestamp: "1 day ago",
-      status: "pending",
-    },
-  ]);
+  const [recentDeposits, setRecentDeposits] = useState([]);
 
   const form = useForm({
     initialValues: {
@@ -99,44 +71,27 @@ const Deposit = () => {
       amount: values.amount,
       description: values.description,
     };
+    await depositFunds(payload);
+    form.reset();
+    setLoading(false);
+    fetchRecentDeposits();
+  };
+
+  const fetchRecentDeposits = async () => {
     try {
-      // Simulate API call
-      const response = await depositFunds(payload);
-      console.log("deposit response:", response);
-      //   await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Add to recent deposits
-      const newDeposit = {
-        id: Date.now(),
-        accountNumber: values.accountNumber,
-        amount: values.amount,
-        description: values.description,
-        timestamp: "Just now",
-        status: "completed",
-      };
-
-      setRecentDeposits((prev) => [newDeposit, ...prev.slice(0, 4)]);
-
-      toast.success(
-        `Successfully deposited k ${values.amount.toLocaleString()} to ${
-          values.accountNumber
-        }`
-      );
-      form.reset();
+      const response = await getRecentDeposits();
+      console.log("fetchRecentDeposits response:", response);
+      if (response.success) {
+        setRecentDeposits(response.data);
+      }
     } catch (error) {
-      toast.error("Failed to process deposit. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error("fetchRecentDeposits error:", error);
     }
   };
 
-  const formatAmount = (amount) => {
-    return new Intl.NumberFormat("en-RW", {
-      style: "currency",
-      currency: "RWF",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
+  React.useEffect(() => {
+    fetchRecentDeposits();
+  }, []);
 
   return (
     <Box
@@ -189,14 +144,6 @@ const Deposit = () => {
               </Box>
             </Group>
           </Box>
-          <Badge
-            size="lg"
-            variant="light"
-            color="green"
-            leftSection={<IconCheck size="1rem" />}
-          >
-            System Online
-          </Badge>
         </Group>
 
         <Grid>
@@ -230,15 +177,15 @@ const Deposit = () => {
                   />
 
                   <NumberInput
-                    label="Deposit Amount (zmw)"
-                    placeholder="50000"
+                    label="Deposit Amount (ZMW)"
+                    placeholder="Enter amount (e.g., 50000)"
                     size="md"
                     radius="md"
                     leftSection={<IconCreditCard size="1.2rem" />}
-                    description="Enter amount to deposit (minimum: RWF 1,000)"
-                    min={1000}
-                    max={1000000}
+                    description="Enter amount to deposit (minimum: ZMW 100)"
                     thousandSeparator=","
+                    allowNegative={false}
+                    allowDecimal={false}
                     {...form.getInputProps("amount")}
                   />
 
@@ -287,43 +234,6 @@ const Deposit = () => {
           <Grid.Col span={{ base: 12, md: 4 }}>
             <Stack spacing="md">
               {/* Quick Stats */}
-              <Card shadow="sm" padding="lg" radius="lg" withBorder>
-                <Group justify="space-between" align="center" mb="md">
-                  <Text fw={600} c="dark">
-                    Today's Summary
-                  </Text>
-                  <ThemeIcon size="sm" variant="light" color="green">
-                    <IconTrendingUp size="1rem" />
-                  </ThemeIcon>
-                </Group>
-
-                <Stack spacing="xs">
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">
-                      Total Deposits
-                    </Text>
-                    <Text size="sm" fw={600} c="green">
-                      RWF 2,450,000
-                    </Text>
-                  </Group>
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">
-                      Transactions
-                    </Text>
-                    <Text size="sm" fw={600}>
-                      47
-                    </Text>
-                  </Group>
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">
-                      Success Rate
-                    </Text>
-                    <Text size="sm" fw={600} c="green">
-                      99.2%
-                    </Text>
-                  </Group>
-                </Stack>
-              </Card>
 
               {/* Recent Deposits */}
               <Card shadow="sm" padding="lg" radius="lg" withBorder>
@@ -337,7 +247,7 @@ const Deposit = () => {
                 </Group>
 
                 <Stack spacing="xs">
-                  {recentDeposits.map((deposit) => (
+                  {recentDeposits?.deposits?.map((deposit) => (
                     <Paper
                       key={deposit.id}
                       p="sm"
@@ -347,18 +257,20 @@ const Deposit = () => {
                       <Group justify="space-between" align="center">
                         <Box>
                           <Text size="sm" fw={500}>
-                            {deposit.accountNumber}
+                            {deposit?.account?.accountNumber}
                           </Text>
                           <Text size="xs" c="dimmed">
                             {deposit.description}
                           </Text>
                           <Text size="xs" c="dimmed">
-                            {deposit.timestamp}
+                            {moment(deposit.createdAt).format(
+                              "DD MMM YYYY h:mm A"
+                            )}
                           </Text>
                         </Box>
                         <Box ta="right">
                           <Text size="sm" fw={600} c="green">
-                            {formatAmount(deposit.amount)}
+                            {formatAmount(deposit?.amount)}
                           </Text>
                           <Badge
                             size="xs"
@@ -369,7 +281,7 @@ const Deposit = () => {
                             }
                             variant="light"
                           >
-                            {deposit.status}
+                            {deposit?.account?.type}
                           </Badge>
                         </Box>
                       </Group>
@@ -387,7 +299,7 @@ const Deposit = () => {
               >
                 <Text size="sm">
                   All deposits are processed instantly and notifications are
-                  sent to students automatically.
+                  sent automatically.
                 </Text>
               </Alert>
             </Stack>

@@ -1,5 +1,5 @@
-import { Select, TextInput, Button, Container, Stack } from "@mantine/core";
-import React, { useState, useEffect } from "react";
+import { Select, TextInput, Container, Stack } from "@mantine/core";
+import  { useState, useEffect } from "react";
 import { NumberInput } from "@mantine/core";
 
 const StudentForm = ({ form }) => (

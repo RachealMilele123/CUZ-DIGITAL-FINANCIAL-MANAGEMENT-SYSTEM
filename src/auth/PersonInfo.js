@@ -1,14 +1,10 @@
 import {
-  Button,
-  Checkbox,
   Group,
   TextInput,
-  NumberInput,
   Container,
   Stack,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import { useState } from "react";
 import { IconCalendar } from "@tabler/icons-react";
 import "@mantine/dates/styles.css";
 import { Radio } from "@mantine/core";
