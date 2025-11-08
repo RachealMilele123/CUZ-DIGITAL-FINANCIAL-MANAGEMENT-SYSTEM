@@ -3,7 +3,7 @@ import { getDeposits } from "../services/authService";
 
 const ViewDeposits = () => {
   const [deposits, setDeposits] = React.useState([]);
-
+  console.log("ViewDeposits deposits state:", deposits);
   const fetchDeposits = async () => {
     try {
       const response = await getDeposits();

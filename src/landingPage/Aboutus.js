@@ -15,7 +15,6 @@ import {
   Button,
   Avatar,
   Timeline,
-  Divider,
 } from "@mantine/core";
 import {
   IconSchool,
@@ -25,7 +24,6 @@ import {
   IconUsers,
   IconTrendingUp,
   IconDeviceMobile,
-  IconCheck,
   IconArrowRight,
   IconBuildingBank,
   IconWallet,
@@ -41,7 +39,7 @@ const Aboutus = () => {
         minHeight: "100vh",
         position: "relative",
         overflow: "hidden",
-        marginTop: "-60px"
+        marginTop: "-60px",
       }}
     >
       {/* Background decorative elements */}

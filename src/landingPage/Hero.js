@@ -18,7 +18,6 @@ import {
   IconCreditCard,
   IconTrendingUp,
   IconDeviceMobile,
-  IconLock,
   IconCheck,
   IconArrowRight,
 } from "@tabler/icons-react";

@@ -12,10 +12,8 @@ import {
   Group,
   Box,
   ThemeIcon,
-  SimpleGrid,
   Paper,
   Badge,
-  Divider,
 } from "@mantine/core";
 import {
   IconPhone,
@@ -281,7 +279,7 @@ export function ContactUs() {
                       <Text size="sm" c="dimmed">
                         +260 972 100 325
                         <br />
-                        +260 973 108 950 
+                        +260 973 108 950
                       </Text>
                     </Box>
                   </Group>

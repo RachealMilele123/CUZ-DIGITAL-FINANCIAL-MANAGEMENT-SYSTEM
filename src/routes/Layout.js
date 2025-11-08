@@ -3,8 +3,6 @@ import { useAuth } from "../contexts/AuthContext";
 
 // Layout component for authenticated users (dashboard pages)
 export const DashboardLayout = ({ children }) => {
-  const { logout } = useAuth();
-
   return (
     <div style={{ minHeight: "100vh" }}>
       {/* Dashboard content without main navigation */}
