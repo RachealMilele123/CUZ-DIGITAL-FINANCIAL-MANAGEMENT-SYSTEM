@@ -78,7 +78,7 @@ const Transfer = () => {
   const fetchTransactionHistory = async () => {
     const response = await transactionHistory(accountNumber);
     console.log("Transaction history response:", response);
-    setSummary(response.data.summary);
+    setSummary(response?.data?.summary);
     setAllTransactions(response);
     if (response.success) {
       console.log("Transaction history successful:", response.data);
