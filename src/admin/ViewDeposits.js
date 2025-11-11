@@ -29,6 +29,7 @@ import {
 import { getDeposits } from "../services/authService";
 import { formatAmount } from "../schemaValidation/Helpers";
 import moment from "moment";
+import Loading from "../component/Loading";
 
 const ViewDeposits = () => {
   const [deposits, setDeposits] = React.useState([]);
@@ -145,23 +146,7 @@ const ViewDeposits = () => {
   };
 
   if (loading) {
-    return (
-      <Container>
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "200px",
-          }}
-        >
-          <Stack align="center">
-            <Loader size="lg" />
-            <Text>Loading deposits...</Text>
-          </Stack>
-        </Box>
-      </Container>
-    );
+    return <Loading />;
   }
 
   if (error) {
