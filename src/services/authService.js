@@ -334,3 +334,35 @@ export const getDeposits = async () => {
     };
   }
 };
+
+export const getAllAccountUsers = async () => {
+  const token = getAuthToken();
+
+  const result = await fetchWithTokenHandling(
+    `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/users`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (result.tokenExpired) {
+    return result; // Token expired, user will be redirected to login
+  }
+
+  if (result.success) {
+    console.log("All Account Users response:", result.data);
+    return result;
+  } else {
+    console.error("Get all account users failed:", result.error);
+    return {
+      success: false,
+      error:
+        result.error || "Failed to fetch all account users. Please try again.",
+    };
+  }
+};
