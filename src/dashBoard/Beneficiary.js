@@ -1,30 +1,31 @@
 import React from "react";
-import { Input } from "@mantine/core";
-import { TextInput } from '@mantine/core';
-import { Textarea } from '@mantine/core';
+import { Container, Input } from "@mantine/core";
+import { TextInput } from "@mantine/core";
+import { Textarea } from "@mantine/core";
 
 const Beneficiary = () => {
   return (
     <div>
+      <Container>
       <Input.Wrapper
-        label="Input label"
-        description="Input description"
+        label="Account Number"
+        description="STU-77565457"
         error="Input error"
       >
         <Input placeholder="Input inside Input.Wrapper" />
       </Input.Wrapper>
       <TextInput
-        label="Input label"
-        description="Input description"
-        placeholder="Input placeholder"
+        label="Nick Name"
+        description=""
+        placeholder="Cavendish FAO"
       />
-          <Textarea
-      label="Input label"
-      description="Input description"
-      placeholder="Input placeholder"
-    />
+      <Textarea
+        label="Description"
+        description="Input description"
+        placeholder="He is ....."
+      />
+      </Container>
     </div>
-    
   );
 };
 
