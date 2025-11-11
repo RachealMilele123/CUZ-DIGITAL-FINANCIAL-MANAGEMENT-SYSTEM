@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { setTokenExpiryHandler } from "../utils/apiUtils";
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -70,6 +72,19 @@ export const AuthProvider = ({ children }) => {
     return !!currentToken;
   };
 
+  // Handle token expiry
+  const handleTokenExpiry = () => {
+    console.log("Token expired, logging out user");
+    logout();
+    // Navigation will be handled by the ProtectedRoute component
+    // when isAuthenticated becomes false
+  };
+
+  // Register the token expiry handler with the API utils
+  useEffect(() => {
+    setTokenExpiryHandler(handleTokenExpiry);
+  }, []);
+
   const value = {
     token,
     isAuthenticated,
@@ -79,6 +94,7 @@ export const AuthProvider = ({ children }) => {
     getToken,
     checkAuth,
     user,
+    handleTokenExpiry,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

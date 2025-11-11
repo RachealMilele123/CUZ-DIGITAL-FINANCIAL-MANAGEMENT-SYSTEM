@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { IconRefresh, IconWallet } from "@tabler/icons-react";
 import moment from "moment";
-import { accountBalance } from "../services/authService";
+import { getAccountBalance } from "../services/authService";
 import Loading from "../component/Loading";
 import { formatAmount } from "../schemaValidation/Helpers";
 import { toast } from "react-toastify";
@@ -28,7 +28,7 @@ const Balance = () => {
   const fetchBalanceData = async () => {
     setIsLoading(true);
     try {
-      const response = await accountBalance();
+      const response = await getAccountBalance();
 
       if (response.success) {
         setBalanceData(response.data);

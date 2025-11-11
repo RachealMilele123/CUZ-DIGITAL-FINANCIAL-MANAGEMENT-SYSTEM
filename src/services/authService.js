@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { fetchWithTokenHandling } from "../utils/apiUtils";
 
 // Helper function to get token from localStorage
 const getAuthToken = () => {
@@ -87,60 +88,34 @@ export const registerUser = async (payload) => {
   }
 };
 
-export const accountBalance = async () => {
-  try {
-    const token = getAuthToken();
+export const getAccountBalance = async () => {
+  const token = getAuthToken();
 
-    if (!token) {
-      return {
-        success: false,
-        error: "No authentication token found. Please login again.",
-      };
+  const result = await fetchWithTokenHandling(
+    `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/balance`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }
+  );
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/balance`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log("Account Balance response:", data);
+  if (result.tokenExpired) {
+    return result; // Token expired, user will be redirected to login
+  }
 
-    if (response.ok) {
-      // Success response (status 200-299)
-      return {
-        success: true,
-        data: data,
-      };
-    } else {
-      // Error response (status 400-599)
-      console.error("Account Balance failed:", data.error || data.message);
-      return {
-        success: false,
-        error: data.error || "Account Balance failed. Please try again.",
-      };
-    }
-  } catch (error) {
-    console.error("Network error:", error.message);
-
-    if (error.message === "Failed to fetch") {
-      return {
-        success: false,
-        error:
-          "Unable to connect to server. Please ensure the backend server is running on http://localhost:8000",
-      };
-    } else {
-      return {
-        success: false,
-        error: "Network error. Please check your connection and try again.",
-      };
-    }
+  if (result.success) {
+    console.log("Account Balance response:", result.data);
+    return result;
+  } else {
+    console.error("Account Balance failed:", result.error);
+    return {
+      success: false,
+      error: result.error || "Account Balance failed. Please try again.",
+    };
   }
 };
 
@@ -195,59 +170,40 @@ export const transaction = async (payload) => {
 };
 
 export const transactionHistory = async (accountNumber) => {
-  try {
-    const token = getAuthToken();
+  const token = getAuthToken();
 
-    if (!token) {
-      return {
-        success: false,
-        error: "No authentication token found. Please login again.",
-      };
+  if (!token) {
+    return {
+      success: false,
+      error: "No authentication token found. Please login again.",
+    };
+  }
+
+  const result = await fetchWithTokenHandling(
+    `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/transactions/${accountNumber}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }
+  );
 
-    const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/transactions/${accountNumber}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data = await response.json();
-    console.log("Transaction History response:", data);
+  if (result.tokenExpired) {
+    return result; // Token expired, user will be redirected to login
+  }
 
-    if (response.ok) {
-      // Success response (status 200-299)
-      return {
-        success: true,
-        data: data,
-      };
-    } else {
-      // Error response (status 400-599)
-      console.error("Transaction History failed:", data.error || data.message);
-      return {
-        success: false,
-        error: data.error || "Transaction History failed. Please try again.",
-      };
-    }
-  } catch (error) {
-    console.error("Network error:", error.message);
-
-    if (error.message === "Failed to fetch") {
-      return {
-        success: false,
-        error:
-          "Unable to connect to server. Please ensure the backend server is running on http://localhost:8000",
-      };
-    } else {
-      return {
-        success: false,
-        error: "Network error. Please check your connection and try again.",
-      };
-    }
+  if (result.success) {
+    console.log("Transaction History response:", result.data);
+    return result;
+  } else {
+    console.error("Transaction History failed:", result.error);
+    return {
+      success: false,
+      error: result.error || "Transaction History failed. Please try again.",
+    };
   }
 };
 
