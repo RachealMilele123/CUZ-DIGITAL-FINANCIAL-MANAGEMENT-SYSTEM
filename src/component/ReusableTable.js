@@ -19,8 +19,23 @@ import {
 } from "@tabler/icons-react";
 import { formatAmount } from "../schemaValidation/Helpers";
 import moment from "moment";
+import { useState } from "react";
+import TransactionReceipt from "./TransactionReceipt";
 
 function ReusableTable({ transaction, type = "all" }) {
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [receiptOpened, setReceiptOpened] = useState(false);
+
+  const handleShowReceipt = (transaction) => {
+    setSelectedTransaction(transaction);
+    setReceiptOpened(true);
+  };
+
+  const handleCloseReceipt = () => {
+    setReceiptOpened(false);
+    setSelectedTransaction(null);
+  };
+
   if (!transaction || transaction.length === 0) {
     return (
       <Box ta="center" py="xl">
@@ -148,7 +163,12 @@ function ReusableTable({ transaction, type = "all" }) {
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Get Receipt">
-            <ActionIcon variant="light" size="sm" color="green">
+            <ActionIcon
+              variant="light"
+              size="sm"
+              color="green"
+              onClick={() => handleShowReceipt(transaction)}
+            >
               <IconReceipt size="0.8rem" />
             </ActionIcon>
           </Tooltip>
@@ -158,50 +178,59 @@ function ReusableTable({ transaction, type = "all" }) {
   ));
 
   return (
-    <ScrollArea>
-      <Table striped highlightOnHover withTableBorder withColumnBorders>
-        <Table.Thead>
-          <Table.Tr style={{ backgroundColor: "#f8f9fa" }}>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                #
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                From Account
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                To Account
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                Amount
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                Date & Time
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                Status & Description
-              </Text>
-            </Table.Th>
-            <Table.Th>
-              <Text fw={700} size="sm">
-                Actions
-              </Text>
-            </Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </ScrollArea>
+    <>
+      <ScrollArea>
+        <Table striped highlightOnHover withTableBorder withColumnBorders>
+          <Table.Thead>
+            <Table.Tr style={{ backgroundColor: "#f8f9fa" }}>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  #
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  From Account
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  To Account
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  Amount
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  Date & Time
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  Status & Description
+                </Text>
+              </Table.Th>
+              <Table.Th>
+                <Text fw={700} size="sm">
+                  Actions
+                </Text>
+              </Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </ScrollArea>
+
+      {/* Transaction Receipt Modal */}
+      <TransactionReceipt
+        transaction={selectedTransaction}
+        opened={receiptOpened}
+        onClose={handleCloseReceipt}
+      />
+    </>
   );
 }
 export default ReusableTable;
