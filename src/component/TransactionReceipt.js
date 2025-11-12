@@ -84,7 +84,7 @@ Generated on: ${moment().format("MMMM DD, YYYY [at] h:mm A")}
         {/* Header */}
         <Box ta="center" mb="lg">
           <Text size="xl" fw={700} c="blue">
-            CUZ DIGITAL BANK
+            Forever Trust Bank
           </Text>
           <Text size="sm" c="dimmed">
             Financial Management System
@@ -104,7 +104,7 @@ Generated on: ${moment().format("MMMM DD, YYYY [at] h:mm A")}
                 Receipt No
               </Text>
               <Text size="sm" fw={500}>
-                RCP-{transaction?.id?.slice(-8) || "N/A"}
+                RCP-{transaction?._id?.slice(-8) || "N/A"}
               </Text>
             </Grid.Col>
             <Grid.Col span={6}>
