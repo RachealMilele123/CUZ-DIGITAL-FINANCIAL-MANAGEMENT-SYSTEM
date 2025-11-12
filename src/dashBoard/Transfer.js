@@ -105,7 +105,7 @@ const Transfer = () => {
           <Text size="xl" c="black" mt="lg">
             Transfer
           </Text>
-          <Button variant="default" c="white" bg="blue" curser="pointer">
+          <Button onClick={open} size="md" variant="light" color="blue">
             Tranfer Money
           </Button>
         </Box>

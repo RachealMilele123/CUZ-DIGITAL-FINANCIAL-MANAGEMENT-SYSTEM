@@ -88,7 +88,7 @@ export function Dashboard() {
             Forever Trust Bank
           </Text>
           <Group gap="md" className={classes.rightHeaderGroup}>
-            <Text>Welcome, {user?.name}</Text>
+            <Text>Welcome, {user?.type === "business" ? user?.businessName : user?.name}</Text>
             <IconBellRinging size={20} className={classes.notificationIcon} />
             <Avatar
               src={null}
