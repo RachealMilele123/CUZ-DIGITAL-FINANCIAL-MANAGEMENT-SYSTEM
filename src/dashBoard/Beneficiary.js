@@ -1,206 +1,263 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
-  Input,
   TextInput,
   Textarea,
   Title,
   Card,
   Button,
   Group,
+  Loader,
+  Text,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { toast } from "react-toastify";
+import Transfer from "./Transfer";
+ import { useNavigate } from "react-router-dom";
 
 const Beneficiary = () => {
   const token = localStorage.getItem("authToken");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [description, setDescription] = useState("");
-  const [beneficiaries, setBeneficiaries] = useState([]);
 
-  // For loading and error handling
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [beneficiaries, setBeneficiaries] = useState([]);
 
+  // ✅ Fetch all beneficiaries safely
+  const fetchBeneficiaries = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-  // Handle saving a new beneficiary
- const handleSave = async () => {
-  if (!accountNumber || !nickname) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+      const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  const newBeneficiary = {
-    accountNumber,
-    nickname,
-    description,
+      if (!res.ok) {
+        throw new Error("Failed to fetch beneficiaries");
+      }
+
+      const data = await res.json();
+      console.log("Fetched data:", data); // Debugging line
+
+      // ✅ Handle different API response shapes
+      if (Array.isArray(data)) {
+        setBeneficiaries(data);
+      } else if (Array.isArray(data.beneficiaries)) {
+        setBeneficiaries(data.beneficiaries);
+      } else {
+        console.warn("Unexpected API structure:", data);
+        setBeneficiaries([]);
+      }
+    } catch (err) {
+      console.error("Error fetching beneficiaries:", err);
+      setError("Error loading beneficiaries");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  try {
-    setLoading(true);
-    setError(null);
+  // ✅ Load beneficiaries on mount
+  useEffect(() => {
+    fetchBeneficiaries();
+  }, []);
 
-    const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(newBeneficiary),
-    });
+  // ✅ Form setup
+  const form = useForm({
+    mode: "uncontrolled",
+    initialValues: {
+      accountNumber: "",
+      nickname: "",
+      description: "",
+    },
+    validate: {
+      accountNumber: (value) =>
+        value.trim() === "" ? "Please enter a valid account number" : null,
+      nickname: (value) =>
+        value.trim() === "" ? "Nick name is required" : null,
+      description: (value) =>
+        value.trim() === "" ? "Please enter a description" : null,
+    },
+  });
 
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Server responded with ${res.status}: ${text}`);
+  // ✅ Handle save new beneficiary
+  const handleSave = async (values) => {
+    const payload = {
+      accountNumber: values.accountNumber,
+      nickname: values.nickname,
+      description: values.description,
+    };
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Server responded with ${res.status}: ${text}`);
+      }
+
+      toast.success("Beneficiary saved successfully!");
+      form.reset();
+
+      // ✅ Refresh the list
+      fetchBeneficiaries();
+    } catch (err) {
+      console.error("Save error:", err);
+      toast.error("Failed to save beneficiary. Check your inputs or server.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const saved = await res.json();
-    console.log("✅ Saved beneficiary:", saved);
 
-    setBeneficiaries((prev) => [...prev, saved]);
-    setAccountNumber("");
-    setNickname("");
-    setDescription("");
-
-    alert("Beneficiary saved successfully!");
-  } catch (err) {
-    console.error("❌ Error saving beneficiary:", err);
-    setError(`Failed to save beneficiary. ${err.message}`);
-  } finally {
-    setLoading(false);
-  }
+const handleCardClick = (b) => {
+console.log(b)
 };
+
 
   return (
     <Container size="sm" py="xl">
-      <Card
-        shadow="md"
-        radius="lg"
-        withBorder
-        p="lg"
-        style={{
-          backgroundColor: "var(--mantine-color-gray-0)",
-          borderRadius: "20px",
-        }}
-      >
+      {/* --- Add Beneficiary Form --- */}
+      <Card shadow="md" radius="lg" withBorder p="lg" mb="lg">
         <Title
           order={3}
           align="center"
+          mb="md"
           style={{
-            marginBottom: "20px",
             color: "var(--mantine-color-blue-6)",
             fontWeight: 600,
           }}
         >
-          Beneficiary Details
+          Add Beneficiary
         </Title>
 
-        <Input.Wrapper
-          label="Account Number"
-          description="STU-77565457"
-          withAsterisk
-          mb="md"
-        >
-          <Input
-            placeholder="Enter beneficiary account number"
-            radius="md"
+        <form onSubmit={form.onSubmit((values) => handleSave(values))}>
+          <TextInput
+            label="Transfer To"
+            placeholder="014525168"
             size="md"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            mb="md"
+            {...form.getInputProps("accountNumber")}
           />
-        </Input.Wrapper>
 
-        <TextInput
-          label="Nick Name"
-          placeholder="Cavendish FAO"
-          radius="md"
-          size="md"
-          mb="md"
-          withAsterisk
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-        />
-
-        <Textarea
-          label="Description"
-          placeholder="He is..."
-          radius="md"
-          size="md"
-          autosize
-          minRows={3}
-          mb="lg"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        {error && (
-          <p style={{ color: "red", textAlign: "center", marginBottom: "10px" }}>
-            {error}
-          </p>
-        )}
-
-        <Group position="center" mt="md">
-          <Button
+          <TextInput
+            label="Nick Name"
+            placeholder="Cavendish FAO"
             radius="md"
             size="md"
-            color="blue"
-            style={{
-              paddingLeft: "30px",
-              paddingRight: "30px",
-            }}
-            onClick={handleSave}
-            loading={loading}
-          >
-            Save Beneficiary
-          </Button>
-        </Group>
+            mb="md"
+            withAsterisk
+            {...form.getInputProps("nickname")}
+          />
+
+          <Textarea
+            label="Description"
+            placeholder="He is..."
+            radius="md"
+            size="md"
+            autosize
+            minRows={3}
+            mb="lg"
+            {...form.getInputProps("description")}
+          />
+
+          {error && (
+            <Text align="center" mb="sm">
+              {error}
+            </Text>
+          )}
+
+          <Group position="center" mt="md">
+            <Button
+              radius="md"
+              size="md"
+              color="blue"
+              type="submit"
+              loading={loading}
+              style={{ paddingLeft: 30, paddingRight: 30 }}
+            >
+              Save Beneficiary
+            </Button>
+          </Group>
+        </form>
       </Card>
 
-     
+      {/* --- Beneficiaries List --- */}
+      <Title order={4} mb="sm" align="center">
+        Saved Beneficiaries
+      </Title>
+
+      {loading && beneficiaries.length === 0 && (
+        <Group position="center" mt="md">
+          <Loader />
+        </Group>
+      )}
+
+      {!loading && beneficiaries.length === 0 && (
+        <Text align="center" color="dimmed">
+          No beneficiaries added yet.
+        </Text>
+      )}
+
+      {beneficiaries.map((b, index) => (
+        <Card
+          key={index}
+          shadow="md"
+          radius="lg"
+          withBorder
+          onClick={() => handleCardClick(b)}
+          style={{
+            backgroundColor: "#f8f9fa",
+            padding: "18px 20px",
+            marginBottom: "10px",
+            cursor: "pointer",
+            transition: "all 0.25s ease",
+            border: "1px solid #e0e0e0",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.02)";
+            e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+            e.currentTarget.style.borderColor = "#a29bfe";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.05)";
+            e.currentTarget.style.borderColor = "#e0e0e0";
+          }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <Text fw={700} size="lg" c="indigo">
+              {b.nickname}
+            </Text>
+            <Text size="sm" c="dimmed">
+              Account Number:{" "}
+              <span style={{ color: "#333", fontWeight: 500 }}>
+                {b.accountNumber}
+              </span>
+            </Text>
+            <Text size="sm" c="dimmed">
+              Description:{" "}
+              <span style={{ color: "#555", fontStyle: "italic" }}>
+                {b.description}
+              </span>
+            </Text>
+          </div>
+        </Card>
+      ))}
     </Container>
   );
 };
 
 export default Beneficiary;
-
-
-
-//  {/* Optional: Display saved beneficiaries */}
-//       {beneficiaries.length > 0 && (
-//         <Card
-//           mt="xl"
-//           shadow="sm"
-//           radius="md"
-//           withBorder
-//           p="md"
-//           style={{ backgroundColor: "var(--mantine-color-gray-1)" }}
-//         >
-//           <Title order={5} mb="sm">
-//             Saved Beneficiaries
-//           </Title>
-//           {beneficiaries.map((b, i) => (
-//             <div key={i} style={{ marginBottom: "8px" }}>
-//               <strong>{b.nickname}</strong> — {b.account_number}
-//               <br />
-//               <em>{b.description}</em>
-//             </div>
-//           ))}
-//         </Card>
-//       )}
-
-
-  // // Fetch all existing beneficiaries on load (optional)
-  // useEffect(() => {
-  //   const fetchBeneficiaries = async () => {
-  //     try {
-  //       const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries");
-  //       if (!res.ok) throw new Error("Failed to fetch beneficiaries");
-  //       const data = await res.json();
-  //       setBeneficiaries(data);
-  //     } catch (err) {
-  //       console.error(err);
-  //       setError("Could not load beneficiaries.");
-  //     }
-  //   };
-  //   fetchBeneficiaries();
-  // }, []);
