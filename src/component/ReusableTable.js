@@ -18,13 +18,17 @@ import {
   IconReceipt,
 } from "@tabler/icons-react";
 import { formatAmount } from "../schemaValidation/Helpers";
-import moment from "moment";
+import moment  from "moment";
 import { useState } from "react";
 import TransactionReceipt from "./TransactionReceipt";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal, Button } from "@mantine/core";
 
 function ReusableTable({ transaction, type = "all" }) {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [receiptOpened, setReceiptOpened] = useState(false);
+  const [viewDetailsTransaction, setViewDetailsTransaction] = useState(null);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleShowReceipt = (transaction) => {
     setSelectedTransaction(transaction);
@@ -34,6 +38,10 @@ function ReusableTable({ transaction, type = "all" }) {
   const handleCloseReceipt = () => {
     setReceiptOpened(false);
     setSelectedTransaction(null);
+  };
+  const viewDetails = (transaction) => {
+    setViewDetailsTransaction(transaction);
+    console.log("Viewing details for transaction:", transaction);
   };
 
   if (!transaction || transaction.length === 0) {
@@ -158,8 +166,13 @@ function ReusableTable({ transaction, type = "all" }) {
       <Table.Td>
         <Group gap="xs">
           <Tooltip label="View Details">
-            <ActionIcon variant="light" size="sm" color="blue">
-              <IconEye size="0.8rem" />
+            <ActionIcon variant="light" size="sm" color="blue"  onClick={() => {
+                  open(); viewDetails(transaction);
+                }}>
+              <IconEye
+                size="0.8rem"
+               
+              />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Get Receipt">
@@ -223,7 +236,68 @@ function ReusableTable({ transaction, type = "all" }) {
           <Table.Tbody>{rows}</Table.Tbody>
         </Table>
       </ScrollArea>
+  <Modal
+  style={{
+    padding: 20,
+    backgroundColor: "#f8fafc",
+    borderRadius: 10,
+    fontFamily: "Poppins, sans-serif",
+    color: "#1e293b",
+  }}
+  opened={opened}
+  onClose={close}
+  title="View Transaction Details"
+>
+  <div style={{ lineHeight: "1.8", fontSize: "15px" }}>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        Amount:
+      </span>
+      {formatAmount(viewDetailsTransaction?.amount)}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        Date:
+      </span>
+      {moment(viewDetailsTransaction?.date).format("MMM DD, YYYY h:mm A")}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        From (Acc No.):
+      </span>
+      {viewDetailsTransaction?.from?.accountNumber}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        To (Acc No.):
+      </span>
+      {viewDetailsTransaction?.to?.accountNumber}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        Summary:
+      </span>
+      {viewDetailsTransaction?.description}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        Recipient:
+      </span>
+      {viewDetailsTransaction?.to?.accountHolderName}
+    </p>
+    <p>
+      <span style={{ fontWeight: "600", display: "inline-block", width: "180px" }}>
+        Status:
+      </span>
+      {viewDetailsTransaction?.status}
+    </p>
+  </div>
+</Modal>
 
+
+      {/* <Button variant="default" onClick={open}>
+        View Details
+      </Button> */}
       {/* Transaction Receipt Modal */}
       <TransactionReceipt
         transaction={selectedTransaction}

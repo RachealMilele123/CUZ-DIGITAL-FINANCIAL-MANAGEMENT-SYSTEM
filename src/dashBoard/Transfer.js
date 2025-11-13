@@ -15,6 +15,8 @@ import { transaction, transactionHistory } from "../services/authService";
 import { useDisclosure } from "@mantine/hooks";
 import { Stats } from "../component/Stats";
 import TabBars from "../component/Tabs";
+import { ViewDetails } from "./ViewDetails";
+
 
 const Transfer = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -150,6 +152,9 @@ const Transfer = () => {
           </form>
         </Stack>
       </Modal>
+
+<ViewDetails />
+      
 
       <Stats summary={summary} />
       <TabBars allTransactions={allTransactions} />
