@@ -114,6 +114,7 @@ const Beneficiary = () => {
     setSelectedBeneficiary(b);
     setOpened(true);
   };
+   console.log("object",setSelectedBeneficiary)
 
   // ✅ Handle transfer
   const handleTransfer = async () => {
@@ -124,20 +125,25 @@ const Beneficiary = () => {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:8000/cuz/bank/transfer-to-beneficiary", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          beneficiaryId: selectedBeneficiary._id,
-          amount: Number(amount),
-          description: transferDesc,
-        }),
-      });
+      const res = await fetch(
+        "http://localhost:8000/cuz/bank/transfer-to-beneficiary",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            beneficiaryId: selectedBeneficiary?.id,
+            amount: Number(amount),
+            description: transferDesc,
+          }),
+        }
+      );
 
       const data = await res.json();
+      console.log(data);
+
       if (res.ok) {
         toast.success("Transfer successful!");
         setOpened(false);
@@ -156,6 +162,7 @@ const Beneficiary = () => {
 
   return (
     <Container size="sm" py="xl">
+
       {/* --- Add Beneficiary Form --- */}
       <Card shadow="md" radius="lg" withBorder p="lg" mb="lg">
         <Title order={3} align="center" mb="md" c="blue">
@@ -217,9 +224,9 @@ const Beneficiary = () => {
         </Text>
       )}
 
-      {beneficiaries.map((b, index) => (
+      {beneficiaries.map((b) => (
         <Card
-          key={index}
+          key={b.id}
           shadow="md"
           radius="lg"
           withBorder
