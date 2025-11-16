@@ -30,7 +30,7 @@ const Beneficiary = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries", {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/cuz/bank/beneficiaries`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -83,7 +83,7 @@ const Beneficiary = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch("http://localhost:8000/cuz/bank/beneficiaries", {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/cuz/bank/beneficiaries`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const Beneficiary = () => {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:8000/cuz/bank/transfer-to-beneficiary",
+        `${process.env.REACT_APP_API_BASE_URL}/cuz/bank/beneficiaries`,
         {
           method: "POST",
           headers: {
