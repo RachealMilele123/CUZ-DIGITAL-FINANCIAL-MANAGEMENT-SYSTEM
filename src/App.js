@@ -1,4 +1,6 @@
+// src/App.js
 import "./App.css";
+import React from "react";
 import { MantineProvider } from "@mantine/core";
 import { Login } from "./auth/Login";
 import { Hero } from "./landingPage/Hero";
@@ -22,18 +24,44 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Transfer from "./dashBoard/Transfer.js";
 import Beneficiary from "./dashBoard/Beneficiary.js";
-import Notifications from "./dashBoard/Notifications.js";
+// // Notifications default component + named helpers (file exports both)
+import Notifications, {
+  notifyAccountCreated,
+  notifyMoneySent,
+  notifyMoneyReceived,
+  notifyGeneric,
+} from "./dashBoard/Notifications";
 import Receipts from "./dashBoard/Receipts.js";
 import Aboutus from "./landingPage/Aboutus.js";
 import Deposit from "./admin/Deposit.js";
 import ViewDeposits from "./admin/ViewDeposits.js";
 import User from "./admin/User.js";
+import NotificationListener from "./dashBoard/NotificationListener";
+
 
 function App() {
   return (
     <MantineProvider>
       <AuthProvider>
         <Router>
+          {/* ToastContainer: render once at app root */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+
+          {/* Default Notifications component (renders null) — safe to mount */}
+         <NotificationListener />
+
+
           <Routes>
             {/* Public routes - show navigation bar */}
             <Route
@@ -113,7 +141,7 @@ function App() {
               }
             />
 
-            {/* Protected routes - no navigation bar, require authentication */}
+            {/* Protected routes - require authentication */}
             <Route
               path="/overview"
               element={
@@ -136,18 +164,6 @@ function App() {
             </Route>
           </Routes>
         </Router>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
       </AuthProvider>
     </MantineProvider>
   );
