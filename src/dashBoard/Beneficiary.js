@@ -325,4 +325,4 @@ const Beneficiary = () => {
   );
 };
 
-export default Beneficiary;
+export default Beneficiar

@@ -7,25 +7,37 @@ import {
   Container,
   Group,
   Loader,
+  rem,
   Stack,
   Table,
   Text,
+  Tooltip,
 } from "@mantine/core";
 import {
   IconInfoCircle,
   IconRefresh,
   IconUser,
   IconUsers,
+  IconEye,
 } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
 import { getAllAccountUsers } from "../services/authService";
 import moment from "moment";
 import Loading from "../component/Loading";
 
-const User = () => {
+function User() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showUserDetails, setShowUserDetails] = useState(null);
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const showUserDetailsFunction = (accountUser) => {
+    setShowUserDetails(accountUser);
+    open();
+    console.log("User details function called with:", accountUser);
+  };
 
   useEffect(() => {
     fetchAllAccountUsers();
@@ -42,7 +54,6 @@ const User = () => {
       console.log("Response error:", response.error);
 
       if (response.success) {
-        // Handle both array and object responses
         const usersData = Array.isArray(response.data)
           ? response.data
           : response.data.users || [];
@@ -179,6 +190,20 @@ const User = () => {
                           : ""}
                       </Text>
                     </Table.Td>
+                    <Table.Td>
+                      <Tooltip label="View Details">
+                        <ActionIcon
+                          variant="light"
+                          size="sm"
+                          color="blue"
+                          onClick={() => {
+                            showUserDetailsFunction(user);
+                          }}
+                        >
+                          <IconEye size="1rem" />
+                        </ActionIcon>
+                      </Tooltip>
+                    </Table.Td>
                   </Table.Tr>
                 ))}
               </Table.Tbody>
@@ -187,7 +212,8 @@ const User = () => {
         </Card>
       </Stack>
     </Container>
+
   );
-};
+}
 
 export default User;
